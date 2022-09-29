@@ -30,5 +30,8 @@ export async function signOutUser() {
 /* Data functions */
 
 export async function createListItem(item, quantity) {
-    await client.from('Shopping List').insert([{ item, quantity }]);
+    return await client.from('Shopping List').insert([{ item, quantity }]);
+}
+export async function getList() {
+    return await client.from('Shopping List').select('*');
 }
