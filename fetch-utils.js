@@ -1,5 +1,6 @@
-const SUPABASE_URL = '';
-const SUPABASE_KEY = '';
+const SUPABASE_URL = 'https://qboehdsdeqtplyyvocha.supabase.co';
+const SUPABASE_KEY =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFib2VoZHNkZXF0cGx5eXZvY2hhIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjM4ODE1ODUsImV4cCI6MTk3OTQ1NzU4NX0.s31ZEiEVJ9Js-r6C8mHNqfNQm38E9r2kngKpw7NjGaI';
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* Auth related functions */
@@ -27,3 +28,17 @@ export async function signOutUser() {
 }
 
 /* Data functions */
+
+function checkError({ data, error }) {
+    return error ? console.error(error) : data;
+}
+
+export async function createListItem(item, quantity) {
+    const response = await client.from('Shopping List').insert([{ item, quantity }]);
+    return checkError(response);
+}
+
+// export async function getListItem() {
+//     const response = await client.from('Shopping List').select();
+//     return checkError(response);
+// }
