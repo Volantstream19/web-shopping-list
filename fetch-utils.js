@@ -29,16 +29,6 @@ export async function signOutUser() {
 
 /* Data functions */
 
-function checkError({ data, error }) {
-    return error ? console.error(error) : data;
-}
-
 export async function createListItem(item, quantity) {
-    const response = await client.from('Shopping List').insert([{ item, quantity }]);
-    return checkError(response);
+    await client.from('Shopping List').insert([{ item, quantity }]);
 }
-
-// export async function getListItem() {
-//     const response = await client.from('Shopping List').select();
-//     return checkError(response);
-// }
