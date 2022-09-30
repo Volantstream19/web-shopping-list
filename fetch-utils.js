@@ -42,3 +42,11 @@ export async function deleteBoughtItem() {
     const user = getUser();
     return await client.from('Shopping List').delete().eq('user_id', user.id);
 }
+export async function deletePurchased() {
+    const user = getUser();
+    return await client
+        .from('Shopping List')
+        .delete()
+        .eq('user_id', user.id)
+        .match({ bought: true });
+}
