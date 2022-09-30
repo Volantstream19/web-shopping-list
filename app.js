@@ -1,7 +1,7 @@
 /* Imports */
 // this will check if we have a user and set signout link if it exists
 import './auth/user.js';
-import { createListItem, getList } from './fetch-utils.js';
+import { completeItem, createListItem, getList } from './fetch-utils.js';
 import { renderList } from './render.js';
 // import { renderItem } from './render.js';
 /* Get DOM Elements */
@@ -22,6 +22,9 @@ window.addEventListener('load', async () => {
     if (error) {
         displayError();
     }
+    if (items) {
+        displayList();
+    }
 });
 
 addItemForm.addEventListener('submit', async (e) => {
@@ -35,11 +38,11 @@ addItemForm.addEventListener('submit', async (e) => {
     console.log(item, quantity);
 
     if (error) {
-        errorDisplay.textContent = error.message;
+        displayError();
     } else {
         items.push(item);
-        displayError();
         displayList();
+        addItemForm.reset();
     }
 });
 
@@ -58,5 +61,22 @@ function displayList() {
     for (const item of items) {
         const listEl = renderList(item);
         groceryList.append(listEl);
+
+        listEl.addEventListener('click', async () => {
+            const response = await completeItem(item.id);
+            error = response.error;
+            const updateItem = response.data;
+
+            if (error) {
+                displayError();
+            } else {
+                // find the index of item in item
+                const index = items.indexOf(item);
+                // update the items state with response
+                items[index] = updateItem;
+                // re display
+                displayList();
+            }
+        });
     }
 }

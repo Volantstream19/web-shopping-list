@@ -69,3 +69,6 @@ main {
 .hidden {
     display: none;
 }
+.bought {
+    text-decoration: line-through;
+}

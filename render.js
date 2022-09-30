@@ -1,8 +1,9 @@
 export function renderList(item) {
     const li = document.createElement('li');
 
-    if (item.complete) {
-        li.classList.add('complete');
+    if (item.bought) {
+        li.classList.add('bought');
+        console.log(item.bought);
     }
 
     const p = document.createElement('p');
