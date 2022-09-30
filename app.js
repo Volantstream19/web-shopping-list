@@ -3,7 +3,6 @@
 import './auth/user.js';
 import { completeItem, createListItem, deleteBoughtItem, getList } from './fetch-utils.js';
 import { renderList } from './render.js';
-// import { renderItem } from './render.js';
 /* Get DOM Elements */
 const groceryList = document.getElementById('grocery-list');
 const addItemForm = document.getElementById('grocery-form');
@@ -12,13 +11,14 @@ const removeButton = document.getElementById('remove-button');
 /* State */
 let error = null;
 let items = [];
-
-/* Events */
-window.addEventListener('load', async () => {
+async function fetchData() {
     const response = await getList();
-
     items = response.data;
     error = response.error;
+}
+/* Events */
+window.addEventListener('load', async () => {
+    await fetchData();
 
     if (error) {
         displayError();
@@ -35,13 +35,12 @@ addItemForm.addEventListener('submit', async (e) => {
     const quantity = data.get('quantity');
 
     await createListItem(item, quantity);
-    addItemForm.reset();
-    console.log(item, quantity);
+    // addItemForm.reset();
 
     if (error) {
         displayError();
     } else {
-        items.push(item);
+        await fetchData();
         displayList();
         addItemForm.reset();
     }
@@ -82,7 +81,7 @@ function displayList() {
             if (error) {
                 displayError();
             } else {
-                // find the index of item in item
+                // find the indexOf item in items
                 const index = items.indexOf(item);
                 // update the items state with response
                 items[index] = updateItem;

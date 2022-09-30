@@ -3,7 +3,6 @@ export function renderList(item) {
 
     if (item.bought) {
         li.classList.add('bought');
-        console.log(item.bought);
     }
 
     const p = document.createElement('p');
