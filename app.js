@@ -1,13 +1,14 @@
 /* Imports */
 // this will check if we have a user and set signout link if it exists
 import './auth/user.js';
-import { completeItem, createListItem, getList } from './fetch-utils.js';
+import { completeItem, createListItem, deleteBoughtItem, getList } from './fetch-utils.js';
 import { renderList } from './render.js';
 // import { renderItem } from './render.js';
 /* Get DOM Elements */
 const groceryList = document.getElementById('grocery-list');
 const addItemForm = document.getElementById('grocery-form');
 const errorDisplay = document.getElementById('error-display');
+const removeButton = document.getElementById('remove-button');
 /* State */
 let error = null;
 let items = [];
@@ -43,6 +44,17 @@ addItemForm.addEventListener('submit', async (e) => {
         items.push(item);
         displayList();
         addItemForm.reset();
+    }
+});
+
+removeButton.addEventListener('click', async () => {
+    const response = await deleteBoughtItem();
+    error = response.error;
+    if (error) {
+        displayError();
+    } else {
+        items = [];
+        displayList();
     }
 });
 

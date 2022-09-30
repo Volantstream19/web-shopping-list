@@ -38,3 +38,7 @@ export async function getList() {
 export async function completeItem(id) {
     return await client.from('Shopping List').update({ bought: true }).eq('id', id).single();
 }
+export async function deleteBoughtItem() {
+    const user = getUser();
+    return await client.from('Shopping List').delete().eq('user_id', user.id);
+}
